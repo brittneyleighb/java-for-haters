@@ -9,11 +9,4 @@
 - [Hello World ceremony](java-for-haters.md#chapter-3-the-ceremony-of-hello-world)
 - [Why Java is painful](java-for-haters.md#what-makes-java-special-and-by-special-we-mean-painful)
 
-## 📊 Book Stats
-- 50,000+ words of satirical Java education
-- 100+ code examples  
-- Infinite frustration potential
-- ☕ Coffee required
-
-## 🤝 Contributing
-Found a Java quirk we missed? Pull requests welcome!
+*Currently in progress*
