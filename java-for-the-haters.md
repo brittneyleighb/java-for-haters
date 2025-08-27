@@ -1,7 +1,7 @@
 # ☕ Java: For the Haters
 ## The Complete Survival Guide to the Language That Broke A Million Dreams
 
-> *"Write once, debug everywhere, cry indefinitely"* - Ancient Java Proverb (circa 1995)
+> *"Write once, debug everywhere, cry daily"* - Ancient Java Proverb (circa 1995)
 
 [![Java Version](https://img.shields.io/badge/Java-8%2B-brightgreen.svg)](https://www.oracle.com/java/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
