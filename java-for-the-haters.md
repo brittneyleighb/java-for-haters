@@ -247,13 +247,13 @@ Now that you're properly caffeinated (virtually), let's dive into the real Java 
 
 ### The Unfortunate Reality
 
-So, you've decided to learn Java. Perhaps your professor assigned it, maybe your company uses it, or possibly you lost a bet. Regardless of how you arrived at this moment, you're here now, staring into the abyss of enterprise-grade verbosity and wondering where your life went wrong.
+So, you've decided to learn Java. Perhaps your professor assigned it, your company unfortunately uses it, or you generally enjoy perpetual torment. Regardless of how you arrived at this moment, you're here now, staring into the abyss of enterprise-grade verbosity.
 
 Java is like that friend who explains every single detail of how they made their morning coffee, including the geological history of the beans. It's thorough, it's comprehensive, and it makes you want to drink your coffee somewhere else.
 
 ### A Brief History of Java (Or: How We Got Into This Mess)
 
-In 1995, James Gosling at Sun Microsystems looked at C++ and thought, "You know what this needs? More ceremony, more verbosity, and definitely more XML configuration files." Thus, Java was born, originally named "Oak" until trademark lawyers got involved – the first sign that Java would be all about legal complications.
+In 1995, James Gosling at Sun Microsystems looked at C++ and thought, "You know what this needs? More ceremony, more loquaciousness, and definitely more XML configuration files." Thus, Java was born, originally named "Oak" until they decided coffee is more appealing than trees (but nothing on trees! They are, after all, the lungs of our planet).
 
 The original promises were ambitious:
 
@@ -264,7 +264,7 @@ The original promises were ambitious:
 
 ### What Makes Java Special (And By Special, We Mean Painful)
 
-Java's philosophy can be summarized as: **"If it can be made more complicated, it should be."** Here's what makes Java uniquely frustrating:
+Java's philosophy can be summarized as: **"Can it BE any more complicated? YES."** Here's what makes Java uniquely frustrating:
 
 #### 1. 🎭 Verbosity as a Virtue
 
@@ -284,7 +284,7 @@ public class HelloPrinter {
 
 #### 2. ⚠️ Checked Exceptions
 
-Java is the only language that makes you acknowledge every possible way your code might fail, even the impossibly unlikely ones. It's like having to sign a waiver before opening a bag of chips.
+Java is the only language in which you must prepare for every possible way your code might fail.
 
 ```java
 // Just trying to read a file
@@ -846,7 +846,7 @@ System.out.println(e == f);    // false (different objects!)
 
 ### Variable Declaration: More Ways Than You'd Expect
 
-Java provides multiple ways to declare variables, because choice is apparently more important than consistency:
+Java provides multiple ways to declare variables, because choice is more important than consistency:
 
 #### The Classic Way
 ```java
@@ -930,7 +930,7 @@ long big = 42000000L;
 int small = (int) big;          // Possible overflow!
 ```
 
-#### The Dangerous Zone
+#### The Danger Zone
 ```java
 int maxInt = Integer.MAX_VALUE;    // 2,147,483,647
 int overflow = maxInt + 1;         // -2,147,483,648 (whoops!)
@@ -2208,16 +2208,11 @@ You've now learned how to make decisions in Java (verbosely) and manipulate text
 
 *Remember: You chose this. Nobody forced you to learn Java.*
 
-# Java for Haters: Chapters 9-10
-## Arrays and Collections - Multiple Choice Questions About Your Life Choices
-
-*"In which we discover that Java has 47 ways to store multiple things, and somehow all of them are both too simple and too complicated."*
-
 ---
 
 ## Chapter 9: Arrays - Java's Tribute to C, But Worse
 
-Welcome to arrays! Java looked at C's arrays and said, "These are almost perfect, but what if we made them more verbose and added some runtime surprises?"
+Welcome to arrays! Java looked at C's arrays and said, "These are almost perfect, but what if we made them even more verbose and added some runtime surprises?"
 
 ### Declaring Arrays: The Syntax That Broke a Thousand Keyboards
 
