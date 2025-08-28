@@ -1125,3 +1125,829 @@ Write a program that creates strings in different ways and tests their equality 
 
 ### Exercise 4.4: Variable Scope Exploration
 Create a class with variables at different scopes (class, instance, method, loop). Write methods that try to access these variables from different locations and document which accesses are legal and which cause compilation errors.
+
+# ☕ Java: For the Haters - Chapters 5-6
+
+---
+
+## Chapter 5: Objects - Everything Is a Hammer
+
+### The Object-Oriented Obsession
+
+Java's fundamental philosophy is that everything should be an object, except for the things that aren't objects (primitives), but we pretend those are objects too when convenient (autoboxing). It's like a world where everything must be put in a box, even if some things work better without boxes.
+
+### Class Definition: The Blueprint for Confusion
+
+Every object in Java starts with a class definition:
+
+```java
+public class Person {
+    // Instance variables (fields)
+    private String name;
+    private int age;
+    private boolean isAlive;
+    
+    // Constructor - the birth ceremony
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+        this.isAlive = true;
+    }
+    
+    // Getter methods - because direct access is forbidden
+    public String getName() {
+        return name;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    public boolean isAlive() {
+        return isAlive;
+    }
+    
+    // Setter methods - controlled mutation
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setAge(int age) {
+        if (age >= 0) {
+            this.age = age;
+        }
+    }
+    
+    // Behavior methods
+    public void celebrateBirthday() {
+        age++;
+        System.out.println(name + " is now " + age + " years old!");
+    }
+    
+    public void die() {
+        isAlive = false;
+        System.out.println(name + " has shuffled off this mortal coil.");
+    }
+}
+```
+
+**🏗️ The Analogy**: A class is like an architectural blueprint. You can't live in the blueprint itself, but you can build many houses (objects) from the same blueprint.
+
+### Object Creation: The Instantiation Ritual
+
+Creating an object requires the sacred `new` keyword:
+
+```java
+Person john = new Person("John Doe", 30);
+Person jane = new Person("Jane Smith", 25);
+
+// Each object has its own copy of instance variables
+john.celebrateBirthday();  // John is now 31
+System.out.println(jane.getAge());  // Jane is still 25
+```
+
+**The Process**:
+1. JVM allocates memory on the heap
+2. Constructor runs to initialize the object
+3. Reference to the object is returned
+4. Reference is assigned to the variable
+
+**🚗 The Analogy**: It's like ordering a custom-built car. The factory (class) uses the blueprint to build your specific car (object), and you get the keys (reference) to drive it.
+
+### The `this` Keyword: Talking to Yourself
+
+The `this` keyword refers to the current object instance:
+
+```java
+public class BankAccount {
+    private double balance;
+    
+    public BankAccount(double balance) {
+        this.balance = balance;  // this.balance refers to the instance variable
+    }
+    
+    public BankAccount deposit(double amount) {
+        this.balance += amount;
+        return this;  // Method chaining - return yourself
+    }
+    
+    public void printBalance() {
+        System.out.println("Balance: $" + this.balance);
+    }
+}
+
+// Usage with method chaining
+BankAccount account = new BankAccount(100.0);
+account.deposit(50.0).deposit(25.0).printBalance();  // Balance: $175.0
+```
+
+**👉 The Analogy**: `this` is like pointing to yourself when someone asks "Who wants pizza?" in a crowded room.
+
+### Access Modifiers: The Privacy Police
+
+Java has four levels of access control, because apparently three wasn't enough but five would be too many:
+
+```java
+public class AccessExample {
+    public String publicField = "Everyone can see this";
+    protected String protectedField = "Subclasses and same package can see this";
+    String packageField = "Only same package can see this";  // default/package-private
+    private String privateField = "Only this class can see this";
+    
+    public void publicMethod() { }
+    protected void protectedMethod() { }
+    void packageMethod() { }
+    private void privateMethod() { }
+}
+```
+
+**The Hierarchy** (from most to least restrictive):
+1. `private` - Only within the same class
+2. `package-private` (default) - Same package only
+3. `protected` - Same package + subclasses
+4. `public` - Everyone and their grandmother
+
+**🏢 The Analogy**: It's like having different levels of clearance in a government building. Some rooms anyone can enter, some require special badges, and some require DNA samples and a background check.
+
+### Static: The Class-Level Weirdness
+
+Static members belong to the class, not to any specific instance:
+
+```java
+public class MathUtils {
+    public static final double PI = 3.14159;  // Class constant
+    private static int instanceCount = 0;     // Class variable
+    
+    private int instanceId;                   // Instance variable
+    
+    public MathUtils() {
+        instanceCount++;                      // Increment class counter
+        this.instanceId = instanceCount;      // Set instance ID
+    }
+    
+    public static double circleArea(double radius) {  // Class method
+        return PI * radius * radius;
+    }
+    
+    public static int getInstanceCount() {    // Class method
+        return instanceCount;
+    }
+    
+    public int getInstanceId() {              // Instance method
+        return instanceId;
+    }
+}
+
+// Usage
+double area = MathUtils.circleArea(5.0);  // Call on class
+System.out.println("Instances created: " + MathUtils.getInstanceCount());
+
+MathUtils calc1 = new MathUtils();
+MathUtils calc2 = new MathUtils();
+System.out.println("Instance count: " + MathUtils.getInstanceCount());  // 2
+```
+
+**🏢 The Analogy**: Static members are like the shared facilities in an apartment building (lobby, mailroom, gym). They belong to the building itself, not to any specific apartment.
+
+### Method Overloading: Same Name, Different Game
+
+Java allows multiple methods with the same name as long as they have different parameter lists:
+
+```java
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+    
+    public double add(double a, double b) {
+        return a + b;
+    }
+    
+    public int add(int a, int b, int c) {
+        return a + b + c;
+    }
+    
+    public String add(String a, String b) {
+        return a + b;
+    }
+    
+    // This won't work - return type alone isn't enough for overloading
+    // public long add(int a, int b) { return a + b; }
+}
+```
+
+**The Rules for Overloading**:
+1. Different number of parameters, OR
+2. Different types of parameters, OR
+3. Different order of parameter types
+
+**📮 The Analogy**: It's like having multiple "send" buttons - one for emails, one for texts, one for packages. Same action name, but the system knows which one to use based on what you're trying to send.
+
+### Constructors: The Birth Ceremony
+
+Constructors are special methods that initialize new objects:
+
+```java
+public class Car {
+    private String make;
+    private String model;
+    private int year;
+    private String color;
+    
+    // Default constructor
+    public Car() {
+        this.make = "Unknown";
+        this.model = "Unknown";
+        this.year = 2023;
+        this.color = "White";
+    }
+    
+    // Parameterized constructor
+    public Car(String make, String model, int year) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.color = "White";  // Default color
+    }
+    
+    // Another parameterized constructor
+    public Car(String make, String model, int year, String color) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.color = color;
+    }
+    
+    // Constructor chaining
+    public Car(String make, String model) {
+        this(make, model, 2023, "White");  // Calls the 4-parameter constructor
+    }
+}
+```
+
+**Constructor Rules**:
+1. Same name as the class
+2. No return type (not even `void`)
+3. Called automatically when using `new`
+4. If you don't provide any constructors, Java gives you a default no-argument constructor
+5. If you provide any constructor, the default one disappears
+
+**📜 The Analogy**: Constructors are like birth certificates - they officially bring the object into existence and record its initial state.
+
+### The Object Class: Everyone's Great-Great-Grandmother
+
+Every class in Java automatically extends `Object`, whether you like it or not:
+
+```java
+public class MyClass {  // Implicitly extends Object
+    // Every object gets these methods for free:
+    // toString(), equals(), hashCode(), getClass(), 
+    // finalize(), wait(), notify(), notifyAll()
+}
+
+// Usage
+MyClass obj = new MyClass();
+System.out.println(obj.toString());        // MyClass@hashcode
+System.out.println(obj.getClass().getName()); // MyClass
+```
+
+**The Important Methods to Override**:
+
+#### `toString()` - String Representation
+```java
+@Override
+public String toString() {
+    return "Person{name='" + name + "', age=" + age + "}";
+}
+```
+
+#### `equals()` - Object Equality
+```java
+@Override
+public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Person person = (Person) obj;
+    return age == person.age && Objects.equals(name, person.name);
+}
+```
+
+#### `hashCode()` - Hash Code for Collections
+```java
+@Override
+public int hashCode() {
+    return Objects.hash(name, age);
+}
+```
+
+**🆔 The Analogy**: The Object class is like having a universal ID system where everyone gets a social security number, even if they never use it.
+
+### Encapsulation: Hide and Seek Champion
+
+Encapsulation is the practice of hiding internal details and providing controlled access:
+
+```java
+public class BankAccount {
+    private double balance;  // Hidden from outside world
+    private String accountNumber;
+    
+    public BankAccount(String accountNumber, double initialBalance) {
+        this.accountNumber = accountNumber;
+        this.balance = Math.max(0, initialBalance);  // No negative starting balance
+    }
+    
+    // Controlled access to balance
+    public double getBalance() {
+        return balance;
+    }
+    
+    // Controlled modification of balance
+    public boolean withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            return true;
+        }
+        return false;  // Invalid withdrawal
+    }
+    
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+        }
+    }
+    
+    // No setter for account number - it shouldn't change
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+}
+```
+
+**Benefits of Encapsulation**:
+1. Data validation (no negative withdrawals)
+2. Internal representation can change without affecting users
+3. Debugging is easier (controlled access points)
+4. Security (can't accidentally corrupt internal state)
+
+**🏦 The Analogy**: Encapsulation is like having a bank teller. You can't just walk into the vault and grab money - you have to go through the teller who follows proper procedures.
+
+### Object References and Memory
+
+Understanding how object references work is crucial:
+
+```java
+Person person1 = new Person("Alice", 30);
+Person person2 = person1;  // Both variables refer to the same object
+Person person3 = new Person("Alice", 30);  // Different object, same data
+
+System.out.println(person1 == person2);     // true (same reference)
+System.out.println(person1 == person3);     // false (different objects)
+System.out.println(person1.equals(person3)); // depends on equals() implementation
+
+person2.setAge(31);
+System.out.println(person1.getAge());  // 31 (same object!)
+```
+
+**🏠 The Analogy**: Object references are like house addresses. Multiple people can have the same address written on their contact cards (same reference), but that doesn't mean there are multiple houses.
+
+### Common Object-Oriented Gotchas
+
+#### The Equality Trap
+```java
+String s1 = new String("Hello");
+String s2 = new String("Hello");
+System.out.println(s1 == s2);        // false (different objects)
+System.out.println(s1.equals(s2));   // true (same content)
+
+Integer i1 = 200;
+Integer i2 = 200;
+System.out.println(i1 == i2);        // false (not cached)
+
+Integer i3 = 100;
+Integer i4 = 100;
+System.out.println(i3 == i4);        // true (cached)
+```
+
+#### The Mutable Object Trap
+```java
+public class MutableTrap {
+    private List<String> items;
+    
+    public List<String> getItems() {
+        return items;  // BAD: Exposes internal state
+    }
+    
+    public List<String> getItemsSafe() {
+        return new ArrayList<>(items);  // GOOD: Returns a copy
+    }
+}
+```
+
+#### The Static Context Trap
+```java
+public class StaticTrap {
+    private String instanceField = "instance";
+    private static String staticField = "static";
+    
+    public static void staticMethod() {
+        System.out.println(staticField);    // OK
+        // System.out.println(instanceField);  // ERROR: Can't access instance field
+        // this.instanceField = "new";         // ERROR: Can't use 'this' in static context
+    }
+}
+```
+
+---
+
+## Chapter 6: Methods - Function Junction Dysfunction
+
+### Method Anatomy: Dissecting the Beast
+
+A method in Java is like a recipe written by a lawyer - it has to specify every possible detail before anyone will trust it to cook anything:
+
+```java
+public static final synchronized String methodName(int param1, String param2) 
+    throws IOException, CustomException {
+    // Method body
+    return "result";
+}
+```
+
+Let's break down this ceremonial declaration:
+
+- `public`: Access modifier (who can call this method)
+- `static`: Belongs to the class, not instance
+- `final`: Can't be overridden in subclasses
+- `synchronized`: Thread-safe (sort of)
+- `String`: Return type
+- `methodName`: The actual name
+- `(int param1, String param2)`: Parameter list
+- `throws IOException, CustomException`: Exception declarations
+
+**📋 The Analogy**: It's like needing a permit, insurance certificate, safety inspection, and environmental impact assessment just to set up a lemonade stand.
+
+### Parameter Passing: The Great Confusion
+
+Java is "pass-by-value," but this means different things for primitives vs objects:
+
+#### Primitives: True Pass-by-Value
+```java
+public void changePrimitive(int number) {
+    number = 100;  // Changes local copy only
+}
+
+public void testPrimitives() {
+    int value = 42;
+    changePrimitive(value);
+    System.out.println(value);  // Still 42
+}
+```
+
+#### Objects: Pass-by-Value of the Reference
+```java
+public void changeObject(List<String> list) {
+    list.add("Added in method");  // Modifies the original object
+}
+
+public void replaceObject(List<String> list) {
+    list = new ArrayList<>();     // Only changes local reference
+    list.add("This won't show");
+}
+
+public void testObjects() {
+    List<String> myList = new ArrayList<>();
+    myList.add("Original");
+    
+    changeObject(myList);
+    System.out.println(myList);  // [Original, Added in method]
+    
+    replaceObject(myList);
+    System.out.println(myList);  // Still [Original, Added in method]
+}
+```
+
+**🏠 The Analogy**: It's like giving someone the address to your house (object reference). They can go to your house and rearrange the furniture (modify the object), but if they write down a different address on their paper (reassign the reference), it doesn't change where your house is located.
+
+### Return Statements: The Exit Strategy
+
+Methods can return values, and Java is very particular about this:
+
+```java
+public class ReturnExamples {
+    // Void method - returns nothing
+    public void printMessage(String message) {
+        System.out.println(message);
+        return;  // Optional in void methods
+    }
+    
+    // Single return point (preferred style)
+    public int calculateScore(int correct, int total) {
+        if (total == 0) {
+            return 0;
+        }
+        return (correct * 100) / total;
+    }
+    
+    // Multiple return points (sometimes necessary)
+    public String getGrade(int score) {
+        if (score >= 90) return "A";
+        if (score >= 80) return "B";
+        if (score >= 70) return "C";
+        if (score >= 60) return "D";
+        return "F";
+    }
+    
+    // Compiler ensures all paths return a value
+    public String getStatus(boolean isActive) {
+        if (isActive) {
+            return "Active";
+        } else {
+            return "Inactive";
+        }
+        // No need for additional return - compiler knows all paths covered
+    }
+}
+```
+
+**The Return Rules**:
+1. Non-void methods MUST return a value of the declared type
+2. All execution paths must lead to a return statement
+3. Code after a return statement is unreachable (compilation error)
+4. Void methods can have return statements (without values) for early exit
+
+### Variable Arguments (Varargs): The Flexible Friend
+
+Java 5 introduced varargs for methods that can accept a variable number of parameters:
+
+```java
+public class VarargsExample {
+    // Traditional approach
+    public int sum(int[] numbers) {
+        int total = 0;
+        for (int num : numbers) {
+            total += num;
+        }
+        return total;
+    }
+    
+    // Varargs approach
+    public int sumVarargs(int... numbers) {  // Note the ...
+        int total = 0;
+        for (int num : numbers) {  // Treated as an array inside method
+            total += num;
+        }
+        return total;
+    }
+    
+    // Mixed parameters (varargs must be last)
+    public String formatMessage(String template, Object... args) {
+        return String.format(template, args);
+    }
+    
+    public void testVarargs() {
+        // Can be called with different numbers of arguments
+        System.out.println(sumVarargs());           // 0
+        System.out.println(sumVarargs(5));          // 5  
+        System.out.println(sumVarargs(1, 2, 3));    // 6
+        System.out.println(sumVarargs(1, 2, 3, 4, 5)); // 15
+        
+        // Can also pass an array
+        int[] array = {10, 20, 30};
+        System.out.println(sumVarargs(array));      // 60
+    }
+}
+```
+
+**Varargs Rules**:
+1. Only one varargs parameter per method
+2. Varargs parameter must be the last parameter
+3. Treated as an array inside the method
+4. Can be called with zero or more arguments of the specified type
+
+### Method References and Lambda Expressions (Java 8+)
+
+Java 8 introduced functional programming concepts:
+
+```java
+import java.util.*;
+import java.util.function.*;
+
+public class FunctionalExample {
+    public static void traditionalWay() {
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+        
+        // Traditional anonymous class
+        names.sort(new Comparator<String>() {
+            @Override
+            public int compare(String a, String b) {
+                return a.compareTo(b);
+            }
+        });
+    }
+    
+    public static void lambdaWay() {
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+        
+        // Lambda expression
+        names.sort((a, b) -> a.compareTo(b));
+        
+        // Even simpler with method reference
+        names.sort(String::compareTo);
+    }
+    
+    // Methods can accept functional interfaces
+    public static void processStrings(List<String> strings, Function<String, String> processor) {
+        for (int i = 0; i < strings.size(); i++) {
+            strings.set(i, processor.apply(strings.get(i)));
+        }
+    }
+    
+    public static void testFunctional() {
+        List<String> words = new ArrayList<>(Arrays.asList("hello", "world", "java"));
+        
+        // Using lambda
+        processStrings(words, s -> s.toUpperCase());
+        System.out.println(words);  // [HELLO, WORLD, JAVA]
+        
+        // Using method reference
+        processStrings(words, String::toLowerCase);
+        System.out.println(words);  // [hello, world, java]
+    }
+}
+```
+
+**🧮 The Analogy**: Lambda expressions are like mathematical functions - they take input, do something with it, and return output, without all the ceremony of creating a full class.
+
+### Recursion: Methods Calling Themselves
+
+Sometimes a method needs to call itself, leading to recursion:
+
+```java
+public class RecursionExamples {
+    // Classic factorial example
+    public long factorial(int n) {
+        if (n <= 1) {
+            return 1;  // Base case
+        }
+        return n * factorial(n - 1);  // Recursive case
+    }
+    
+    // Fibonacci sequence
+    public int fibonacci(int n) {
+        if (n <= 1) {
+            return n;  // Base cases: fib(0) = 0, fib(1) = 1
+        }
+        return fibonacci(n - 1) + fibonacci(n - 2);  // Recursive case
+    }
+    
+    // Tree traversal example
+    public void printDirectoryContents(File directory, int depth) {
+        if (!directory.isDirectory()) return;
+        
+        String indent = "  ".repeat(depth);
+        System.out.println(indent + directory.getName() + "/");
+        
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isDirectory()) {
+                    printDirectoryContents(file, depth + 1);  // Recursive call
+                } else {
+                    System.out.println(indent + "  " + file.getName());
+                }
+            }
+        }
+    }
+}
+```
+
+**Recursion Requirements**:
+1. **Base case**: A condition where the method doesn't call itself
+2. **Recursive case**: The method calls itself with modified parameters
+3. **Progress**: Each recursive call should get closer to the base case
+
+**🪆 The Analogy**: Recursion is like those Russian nesting dolls - each doll contains a smaller version of itself, until you reach the smallest one that doesn't contain anything else.
+
+### Common Method Anti-Patterns
+
+#### The God Method
+```java
+// BAD: One method that does everything
+public void processUserData(User user) {
+    // Validate user (50 lines)
+    // Calculate scores (30 lines)  
+    // Update database (40 lines)
+    // Send notifications (25 lines)
+    // Generate reports (35 lines)
+    // Clean up resources (20 lines)
+    // Total: 200 lines of mixed responsibilities
+}
+
+// BETTER: Break into smaller, focused methods
+public void processUserData(User user) {
+    validateUser(user);
+    UserScore score = calculateUserScore(user);
+    updateUserDatabase(user, score);
+    sendNotifications(user);
+    generateReports(user, score);
+    cleanupResources();
+}
+```
+
+#### The Parameter Parade
+```java
+// BAD: Too many parameters
+public void createUser(String firstName, String lastName, String email, 
+                      String phone, String address, String city, String state,
+                      String zipCode, String country, Date birthDate, 
+                      String gender, String occupation) {
+    // Method implementation
+}
+
+// BETTER: Use objects to group related parameters
+public void createUser(PersonalInfo info, ContactInfo contact, Address address) {
+    // Method implementation
+}
+```
+
+#### The Boolean Trap
+```java
+// BAD: Boolean parameters are unclear
+public void setVisibility(boolean visible, boolean enabled, boolean editable) {
+    // What do these booleans mean?
+}
+user.setVisibility(true, false, true);  // Cryptic!
+
+// BETTER: Use enums or separate methods
+public enum Visibility { VISIBLE, HIDDEN }
+public enum State { ENABLED, DISABLED }
+public enum EditMode { EDITABLE, READ_ONLY }
+
+public void setVisibility(Visibility visibility, State state, EditMode editMode) {
+    // Clear what each parameter means
+}
+```
+
+### Method Performance Considerations
+
+```java
+public class MethodPerformance {
+    // Expensive method calls in loops
+    public void inefficientLoop() {
+        List<String> items = getItems();
+        
+        // BAD: Method call in loop condition
+        for (int i = 0; i < items.size(); i++) { // size() called every iteration
+            process(items.get(i));
+        }
+        
+        // BETTER: Cache the result
+        int size = items.size();
+        for (int i = 0; i < size; i++) {
+            process(items.get(i));
+        }
+        
+        // BEST: Use enhanced for loop
+        for (String item : items) {
+            process(item);
+        }
+    }
+    
+    // Method inlining considerations
+    public int add(int a, int b) {
+        return a + b;  // JVM will likely inline this
+    }
+    
+    public void expensiveMethod() {
+        // Complex calculations
+        // JVM less likely to inline this
+    }
+}
+```
+
+### Exercise 6.1: Method Overloading Practice
+Create a `Calculator` class with overloaded methods for:
+- Adding two numbers (int, double, long versions)
+- Finding the maximum of 2, 3, or 4 numbers
+- Converting temperatures between Celsius/Fahrenheit/Kelvin
+
+### Exercise 6.2: Parameter Passing Investigation
+Write methods that demonstrate:
+- A method that tries to modify an int parameter
+- A method that modifies the contents of a List parameter
+- A method that reassigns a List parameter to a new List
+- Test each method and explain the results
+
+### Exercise 6.3: Recursion Challenge  
+Implement recursive methods for:
+- Computing the greatest common divisor (GCD) of two numbers
+- Reversing a string
+- Checking if a string is a palindrome
+- Converting a decimal number to binary
+
+### Exercise 6.4: Functional Programming Experiment
+Create methods using lambda expressions for:
+- Filtering a list of strings by length
+- Transforming a list of strings to uppercase
+- Finding the sum of a list of integers
+- Sorting a list of custom objects by different criteria
