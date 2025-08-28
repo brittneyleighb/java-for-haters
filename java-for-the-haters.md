@@ -1951,3 +1951,259 @@ Create methods using lambda expressions for:
 - Transforming a list of strings to uppercase
 - Finding the sum of a list of integers
 - Sorting a list of custom objects by different criteria
+- 
+# Java for Haters: Chapters 7-8
+## Control Flow and Strings - Where Logic Goes to Die
+
+*"In which we learn that Java makes decisions like a committee, and handles text like a medieval scribe with arthritis."*
+
+---
+
+## Chapter 7: Control Flow - Democracy in Code (Spoiler: It's Messy)
+
+Congratulations! You've survived variables and objects. Now it's time to make your program actually *do* something. In Java, this means learning control flow - the art of making decisions in the most verbose way possible.
+
+### If Statements: The Anxiety of Choice
+
+Java's `if` statements work like that friend who needs to discuss every possible outcome before deciding where to eat lunch. They're functional, but exhausting.
+
+```java
+// Java's democratic approach to decision making
+if (coffeeLevel < 3) {
+    System.out.println("Cannot code. Need caffeine.");
+    makeCoffee();
+} else if (coffeeLevel > 10) {
+    System.out.println("Too much coffee. Can see through time.");
+    contemplateExistence();
+} else {
+    System.out.println("Perfect coffee level. Time to hate Java properly.");
+    writeMoreBoilerplate();
+}
+```
+
+Notice how Java insists on curly braces even for single statements? It's like wearing a helmet to brush your teeth - technically safer, but it makes you look ridiculous.
+
+### The Ternary Operator: Java's Attempt at Being Cool
+
+Java does have a ternary operator, which is its awkward attempt at being concise:
+
+```java
+String mood = (mondayMorning) ? "existential dread" : "mild despair";
+```
+
+It's like Java put on sunglasses and tried to hang out with the cool languages, but still sounds like your dad trying to use slang.
+
+### Switch Statements: Multiple Choice Hell
+
+The `switch` statement is Java's answer to "what if we made `if-else` chains even more rigid?" It's like a bureaucratic form that refuses any deviation from the prescribed format.
+
+```java
+switch (dayOfWeek) {
+    case MONDAY:
+        System.out.println("Why do we do this to ourselves?");
+        break;  // Don't forget this or Java will execute EVERYTHING
+    case TUESDAY:
+        System.out.println("Still questioning life choices");
+        break;
+    case WEDNESDAY:
+        System.out.println("Hump day? More like slump day");
+        break;
+    case FRIDAY:
+        System.out.println("Light at the end of the tunnel");
+        break;
+    default:
+        System.out.println("Generic suffering");
+        break;
+}
+```
+
+**Pro Tip**: Forget a `break` statement and watch Java gleefully execute every case below it. It's like a programming language designed by someone who enjoys watching the world burn.
+
+### Modern Switch: Java's Mid-Life Crisis
+
+Java 14+ introduced "improved" switch expressions, because apparently the old ones weren't confusing enough:
+
+```java
+String feeling = switch (languageChoice) {
+    case "Python" -> "Happy and productive";
+    case "Rust" -> "Scared but excited";
+    case "JavaScript" -> "Confused but functional";
+    case "Java" -> "Dead inside but employed";
+    default -> "At least I'm not writing COBOL";
+};
+```
+
+It's like Java went through therapy and learned to express itself, but still needs to overthink every sentence.
+
+### Loops: Repetition is the Mother of Despair
+
+Java offers multiple ways to repeat your suffering:
+
+#### The For Loop: Counting Your Regrets
+```java
+// The classic: verbose but predictable
+for (int regret = 0; regret < totalLifeChoices; regret++) {
+    System.out.println("Mistake #" + regret + ": " + mistakes[regret]);
+}
+
+// Enhanced for loop: slightly less typing
+for (String mistake : lifeChoices) {
+    System.out.println("Why did I " + mistake + "?");
+}
+```
+
+#### While Loops: Eternal Suffering
+```java
+while (stillProgrammingInJava) {
+    writeBoilerplate();
+    contemplateCareerChange();
+    checkSalary(); // This usually keeps us going
+}
+```
+
+#### Do-While: Optimistic Pessimism
+```java
+do {
+    tryToLikeJava();
+} while (false); // Spoiler: this runs exactly once
+```
+
+---
+
+## Chapter 8: Strings - Java's Cruel Joke on Text Processing
+
+Ah, Strings. In most languages, text is just text. In Java, text is a philosophical crisis wrapped in immutable objects and seasoned with performance anxiety.
+
+### String Immutability: The Trust Issues Continue
+
+Java Strings are immutable, which sounds fancy but really means "every time you change a String, Java throws away the old one and makes a new one." It's like getting a new car every time you want to adjust the radio.
+
+```java
+String greeting = "Hello";
+greeting = greeting + " World";  // Java just threw away "Hello" and made "Hello World"
+greeting = greeting + "!";       // Now "Hello World" is garbage too
+```
+
+This is like having a conversation where you burn your notebook and buy a new one every time you want to add a word. Environmentally catastrophic, but at least it's "thread-safe"!
+
+### String Concatenation: A Performance Nightmare
+
+Want to build a string from parts? Java gives you several ways to hate yourself:
+
+```java
+// The naive way (creates tons of garbage)
+String result = "";
+for (int i = 0; i < 1000; i++) {
+    result = result + "Java is fun "; // Each += creates a new String object
+}
+// Congratulations! You just created 1000 String objects for one result
+
+// The "proper" way
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i < 1000; i++) {
+    sb.append("Java is fun ");
+}
+String result = sb.toString();
+// Only slightly less soul-crushing
+```
+
+It's like Java looked at string concatenation in other languages and said, "You know what this needs? More ceremony and the constant threat of accidentally creating a memory leak."
+
+### String Methods: Death by a Thousand Cuts
+
+Java Strings come with more methods than a Swiss Army knife, but somehow none of them are quite what you need:
+
+```java
+String text = "  Java is Supposedly Amazing  ";
+
+// Want to remove whitespace? We have options!
+text.trim();           // Removes leading/trailing whitespace
+text.strip();          // Like trim(), but "better" (Java 11+)
+text.stripLeading();   // Because apparently we needed three methods
+text.stripTrailing();  // For this one concept
+
+// Case manipulation (because consistency is overrated)
+text.toUpperCase();    // JAVA IS SUPPOSEDLY AMAZING
+text.toLowerCase();    // java is supposedly amazing
+text.substring(2, 6);  // "va i" - because who needs the whole word?
+
+// Checking content (prepare for disappointment)
+text.contains("Java");     // true
+text.startsWith("Java");   // false (because of the spaces, gotcha!)
+text.endsWith("Amazing");  // false (spaces again!)
+text.equals("Java is Supposedly Amazing"); // false (more spaces!)
+text.equalsIgnoreCase("JAVA IS SUPPOSEDLY AMAZING"); // still false!
+```
+
+### String Comparison: The Equality Operator Betrayal
+
+Here's where Java really shines at making simple things complicated. You'd think `==` would compare strings, right? **WRONG.**
+
+```java
+String a = "Hello";
+String b = "Hello";
+String c = new String("Hello");
+
+System.out.println(a == b);  // true (string pooling magic)
+System.out.println(a == c);  // false (because reasons)
+System.out.println(a.equals(c));  // true (the "correct" way)
+
+// This will haunt your dreams
+String d = "Hel" + "lo";  // Compiler optimizes to "Hello"
+String e = "Hel" + new String("lo"); // Runtime concatenation
+System.out.println(a == d);  // true (compile-time magic)
+System.out.println(a == e);  // false (runtime reality)
+```
+
+It's like Java designed string comparison while being stung by bees. The logic is there, but it's angry and unpredictable.
+
+### String Formatting: Printf's Awkward Cousin
+
+Java eventually realized that string concatenation was painful and gave us formatting. It's like printf, but with more anxiety:
+
+```java
+// The old way (still haunts legacy code)
+String message = String.format("Hello %s, you have %d problems and Java is %f of them", 
+                               name, problemCount, 99.9);
+
+// The new way (Java 15+, because we needed another way)
+String better = "Hello %s, you have %d problems and Java is %f of them"
+                .formatted(name, problemCount, 99.9);
+
+// Text blocks (Java 13+): Finally, multiline strings!
+String sql = """
+            SELECT regret, mistake, "why_did_i_choose_java"
+            FROM life_choices
+            WHERE language = 'Java'
+            ORDER BY suffering DESC
+            """;
+```
+
+### Regular Expressions: Where Hope Goes to Die
+
+Java supports regex, which is like giving a chainsaw to someone who just wanted to trim a hedge:
+
+```java
+String email = "user@example.com";
+boolean isValid = email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$");
+// That's right, you need to escape the escapes because Java strings eat backslashes
+```
+
+Notice the double backslashes? That's because Java string literals consume one level of escaping, so your regex needs to escape the escapes. It's like a Russian nesting doll of confusion.
+
+---
+
+### Chapter Summary: Control Flow and Strings
+
+You've now learned how to make decisions in Java (verbosely) and manipulate text (painfully). You can loop through your regrets efficiently and format your despair professionally.
+
+**Key Takeaways:**
+- Control flow in Java works, but it's like driving a tank to the grocery store
+- Strings are immutable because Java doesn't trust you with mutable text
+- String concatenation can accidentally destroy your application's performance
+- The `==` operator for strings is a trap set by sadistic language designers
+- Regular expressions in Java require double the escaping for double the confusion
+
+**Coming Next**: Chapter 9 will cover Arrays, where we'll learn that Java's approach to collections makes Python lists look like pure poetry, and C arrays seem like models of simplicity.
+
+*Remember: You chose this. Nobody forced you to learn Java. Well, except maybe your employer. Or university. Or the crushing weight of enterprise software expectations.*
