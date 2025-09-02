@@ -1,5 +1,5 @@
 # ☕ Java: For the Haters
-## The Complete Survival Guide to the Language That Broke A Million Dreams
+## The Complete Survival Guide 
 
 > *"Write once, debug everywhere, cry daily"* - Ancient Java Proverb (circa 1995)
 
@@ -12,7 +12,7 @@
 
 ## ☕ Before We Begin: Making Java with Java
 
-Since you're about to embark on this journey of learning Java, let's start by doing what any reasonable person would do: make a cup of coffee using Java code. After all, you're going to need the caffeine.
+Let's start by making a cup of coffee using Java code. We're gonna the need the caffeine and morale boost.
 
 ```java
 public class CoffeeMaker {
