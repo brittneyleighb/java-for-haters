@@ -14,213 +14,105 @@
 
 Let's start by making a cup of coffee using Java code. We're gonna the need the caffeine and morale boost.
 
+### Part 1: Main Method (a.k.a. where all Java adventures begin)
 ```java
-public class CoffeeMaker {
-    // Because everything in Java must be inside a class, even coffee
-    private boolean hasCoffee = false;
-    private boolean hasWater = false;
-    private boolean hasMilk = false;
-    private int sugarCubes = 0;
-    private String mood = "desperate";
-    
+public class CoffeeApp {
+    // Flip these to demonstrate how Java loves to ruin your day
+    private static final boolean DEMO_MISSING_INGREDIENTS = false; 
+    private static final boolean DEMO_BUGGY_EQUIVALENCE   = false;
+    private static final boolean DEMO_NULL_HANDLING       = false;
+
     public static void main(String[] args) {
-        // The sacred main method - where all Java adventures begin
-        System.out.println("☕ Welcome to Java Coffee Brewing System™ ☕");
-        System.out.println("(Enterprise Edition with Dependency Injection)");
-        
-        CoffeeMaker maker = new CoffeeMaker();
+        System.out.println("☕ Welcome to Java Coffee Brewing System™ (Enterprise Edition)");
+        System.out.println("(Now with fewer NullPointerExceptions, but not zero)");
+
+        // Pretend this came from a billion-dollar dependency injection framework
+        Inventory inventory = DEMO_MISSING_INGREDIENTS
+                ? new Inventory(false, false, true, 1) // Missing beans & water, oops
+                : new Inventory(true, true, true, 1);
+
+        Mood mood = DEMO_BUGGY_EQUIVALENCE
+                ? Mood.from("DesPeRate") // Try bad casing → normalized safely
+                : Mood.DESPERATE;
+
+        CoffeeMaker maker = new CoffeeMaker(inventory, mood);
+
         try {
-            Cup coffee = maker.brewCoffee();
-            maker.drink(coffee);
+            Cup cup = maker.brewCoffee();    // May throw checked exception (Java’s favorite)
+            if (DEMO_NULL_HANDLING) cup = null; // Intentionally sabotage it
+            maker.drink(cup);
         } catch (InsufficientCaffeineException e) {
-            System.out.println("ERROR: Cannot proceed with Java learning without coffee!");
-            System.out.println("Please insert coffee and try again.");
+            System.out.println("ERROR: " + e.getMessage());
+            System.out.println("Java lesson: Handle your exceptions like a responsible adult.");
         } finally {
-            System.out.println("Coffee break complete. Ready to learn Java!");
-            System.out.println("(Disclaimer: Actual Java knowledge not guaranteed)");
-        }
-    }
-    
-    public Cup brewCoffee() throws InsufficientCaffeineException {
-        // Method 1: Check if we have the necessary ingredients
-        validateIngredients();
-        
-        // Method 2: Create coffee using proper object-oriented principles
-        CoffeeBean beans = new CoffeeBean("Arabica", "Dark Roast");
-        Water water = new Water(200, "filtered");  // 200ml of water
-        
-        // Method 3: Use a builder pattern because this is Java
-        Cup coffee = new CoffeeBuilder()
-            .withBeans(beans)
-            .withWater(water)
-            .withMilk(hasMinimalMilk())
-            .withSugar(calculateOptimalSugar())
-            .withDesperation(mood)
-            .brew();
-            
-        return coffee;
-    }
-    
-    private void validateIngredients() throws InsufficientCaffeineException {
-        if (!hasCoffee) {
-            throw new InsufficientCaffeineException(
-                "No coffee beans found. Cannot compile... I mean, cannot brew."
-            );
-        }
-        if (!hasWater) {
-            throw new InsufficientCaffeineException(
-                "No water found. This is like trying to run Java without the JVM."
-            );
-        }
-    }
-    
-    private boolean hasMinimalMilk() {
-        return hasMilk; // Java doesn't trust you to remember boolean values
-    }
-    
-    private int calculateOptimalSugar() {
-        // Complex algorithm to determine sugar needs
-        switch (mood) {
-            case "desperate":
-                return Math.max(sugarCubes, 3);
-            case "tired":
-                return Math.max(sugarCubes, 2);
-            case "optimistic":
-                return Math.min(sugarCubes, 1);
-            default:
-                return sugarCubes; // Default case, because Java demands it
-        }
-    }
-    
-    public void drink(Cup coffee) {
-        if (coffee != null && coffee.getTemperature() > 60) {
-            System.out.println("☕ Drinking delicious Java-made coffee...");
-            System.out.println("☕ Caffeine levels rising...");
-            System.out.println("☕ Ready to tackle NullPointerExceptions!");
-            this.mood = "caffeinated";
-        } else {
-            System.out.println("☕ Coffee is null or too cold. Just like my feelings about Java.");
+            System.out.println("Coffee break complete. Time to wrestle with generics.");
         }
     }
 }
 
-// Because Java loves its classes, here are more classes for coffee
-class CoffeeBean {
-    private String variety;
-    private String roast;
-    
-    public CoffeeBean(String variety, String roast) {
-        this.variety = variety;
-        this.roast = roast;
-    }
-    
-    // Getters and setters, because direct access is forbidden in Java
-    public String getVariety() { return variety; }
-    public String getRoast() { return roast; }
-    
-    @Override
-    public String toString() {
-        return variety + " (" + roast + ")";
+```
+### Part 2: Enums are Better Than Strings
+```java
+// Enums: because stringly-typed moods are a disaster waiting to happen
+enum Mood {
+    DESPERATE, TIRED, OPTIMISTIC;
+
+    public static Mood from(String raw) {
+        if (raw == null) return DESPERATE; // default: always desperate
+        switch (raw.trim().toLowerCase()) {
+            case "desperate":  return DESPERATE;
+            case "tired":      return TIRED;
+            case "optimistic": return OPTIMISTIC;
+            default:           return DESPERATE; // when in doubt, panic
+        }
     }
 }
-
-class Water {
-    private int volumeML;
-    private String quality;
-    
-    public Water(int volumeML, String quality) {
-        this.volumeML = volumeML;
-        this.quality = quality;
-    }
-    
-    public int getVolumeML() { return volumeML; }
-    public String getQuality() { return quality; }
-}
-
-class Cup {
-    private String contents;
-    private int temperature;
-    private boolean isEmpty;
-    
-    public Cup(String contents, int temperature) {
-        this.contents = contents;
-        this.temperature = temperature;
-        this.isEmpty = false;
-    }
-    
-    public String getContents() { return contents; }
-    public int getTemperature() { return temperature; }
-    public boolean isEmpty() { return isEmpty; }
-    
-    @Override
-    public String toString() {
-        return "Cup of " + contents + " at " + temperature + "°C";
-    }
-}
-
-// Builder pattern because simple constructors are for amateurs
-class CoffeeBuilder {
+```
+### Part 3: The Builder (because Java can’t resist ceremony)
+```java
+// Builder pattern: Because a single constructor is never enough for Java devs
+final class CoffeeBuilder {
     private CoffeeBean beans;
     private Water water;
-    private boolean withMilk = false;
-    private int sugarCubes = 0;
-    private String desperation = "normal";
-    
+    private boolean withMilk;
+    private int sugarCubes;
+    private Mood mood = Mood.TIRED; // default state of all programmers
+
     public CoffeeBuilder withBeans(CoffeeBean beans) {
-        this.beans = beans;
-        return this; // Method chaining, because Java loves ceremony
+        this.beans = beans; return this; // Method chaining makes us feel clever
     }
-    
+
     public CoffeeBuilder withWater(Water water) {
-        this.water = water;
-        return this;
+        this.water = water; return this;
     }
-    
+
     public CoffeeBuilder withMilk(boolean withMilk) {
-        this.withMilk = withMilk;
-        return this;
+        this.withMilk = withMilk; return this;
     }
-    
+
     public CoffeeBuilder withSugar(int cubes) {
-        this.sugarCubes = cubes;
+        this.sugarCubes = Math.max(0, cubes); return this;
+    }
+
+    public CoffeeBuilder withMood(Mood mood) {
+        if (mood != null) this.mood = mood; // Java says “check for null or die”
         return this;
     }
-    
-    public CoffeeBuilder withDesperation(String level) {
-        this.desperation = level;
-        return this;
-    }
-    
+
     public Cup brew() throws InsufficientCaffeineException {
-        if (beans == null || water == null) {
-            throw new InsufficientCaffeineException("Missing essential ingredients!");
-        }
-        
-        // Simulate brewing process
+        if (beans == null) throw new InsufficientCaffeineException("No beans → no coffee → no Java dev.");
+        if (water == null) throw new InsufficientCaffeineException("No water. Might as well code in C.");
+
         System.out.println("☕ Grinding " + beans + "...");
         System.out.println("☕ Heating " + water.getVolumeML() + "ml of " + water.getQuality() + " water...");
-        System.out.println("☕ Brewing with " + desperation + " level desperation...");
-        
-        if (withMilk) {
-            System.out.println("☕ Adding a splash of milk...");
-        }
-        
-        if (sugarCubes > 0) {
-            System.out.println("☕ Adding " + sugarCubes + " sugar cube(s)...");
-        }
-        
-        // Calculate coffee temperature (complex algorithm)
-        int temperature = 85 - (sugarCubes * 2); // Sugar cools it down, obviously
-        
+        System.out.println("☕ Brewing with mood: " + mood + "...");
+
+        if (withMilk) System.out.println("☕ Adding milk (because plain coffee is too hardcore)...");
+        if (sugarCubes > 0) System.out.println("☕ Adding " + sugarCubes + " sugar cube(s)...");
+
+        int temperature = Math.max(60, 88 - sugarCubes * 2 - (withMilk ? 3 : 0));
         String coffeeType = withMilk ? "Latte" : "Black Coffee";
         return new Cup(coffeeType, temperature);
-    }
-}
-
-// Custom exception because Java loves checked exceptions
-class InsufficientCaffeineException extends Exception {
-    public InsufficientCaffeineException(String message) {
-        super(message);
     }
 }
 ```
