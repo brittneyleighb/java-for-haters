@@ -385,6 +385,16 @@ class Cup {
         return "Cup of " + contents + " at " + temperature + "°C (perfect for debugging sessions)";
     }
 }
+```
+### Part 5: Exceptions
+```java
+// Custom exception: because Java's built-in exceptions aren't dramatic enough
+class InsufficientCaffeineException extends Exception {
+    public InsufficientCaffeineException(String message) {
+        super("☠️  CAFFEINE DEFICIENCY CRISIS: " + message);
+    }
+}
+```
 ### 🎓 What This Coffee-Making Adventure Teaches Us About Java:
 
 | Concept | Example in Code | Why Java Does This |
@@ -438,15 +448,6 @@ print("Hello")
 public class HelloPrinter {
     public static void main(String[] args) {
         System.out.println("Hello");
-    }
-}
-```
-### Part 5: Exceptions
-```java
-// Custom exception: because Java's built-in exceptions aren't dramatic enough
-class InsufficientCaffeineException extends Exception {
-    public InsufficientCaffeineException(String message) {
-        super("☠️  CAFFEINE DEFICIENCY CRISIS: " + message);
     }
 }
 ```
