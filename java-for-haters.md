@@ -229,17 +229,17 @@ class InsufficientCaffeineException extends Exception {
 
 | Concept | Example in Code | Why Java Does This |
 |---------|----------------|-------------------|
-| **Everything Must Be a Class** | Even making coffee requires multiple classes | Java believes in organization through separation (and verbosity) |
-| **The Sacred Main Method** | `public static void main(String[] args)` | It's like the "once upon a time" of programming |
+| **Everything Must Be a Class** | Even making coffee requires multiple classes | Java believes in organization through separation |
+| **The Sacred Main Method** | `public static void main(String[] args)` | The "once upon a time" of programming |
 | **Exception Handling** | `InsufficientCaffeineException` | Java makes you think about what could go wrong before it happens |
 | **Object Creation** | `new CoffeeBean()`, `new Water()` | Java loves the `new` keyword |
 | **Method Chaining** | `builder.with().with().build()` | Fluent interfaces for "readable" code |
-| **Getters and Setters** | `getVariety()`, `setRoast()` | Direct access to variables is forbidden |
+| **Getters and Setters** | `getVariety()`, `setRoast()` | Direct access to variables is FORBIDDEN |
 | **toString() Methods** | Custom string representation | Objects need to know how to describe themselves |
 
-> **💡 The Analogy**: Making coffee with Java code is like using a formal legal document to ask someone to pass the sugar - technically correct, thoroughly documented, but wildly overcomplicated for the task at hand.
+> **💡 The Analogy**: Making coffee with Java code is like using a formal legal document to ask someone to pass the sugar - technically correct, thoroughly documented, and wildly overcomplicated.
 
-Now that you're properly caffeinated (virtually), let's dive into the real Java journey...
+Now that you're properly caffeinated, let's dive into the real Java journey...
 
 ---
 
@@ -247,13 +247,13 @@ Now that you're properly caffeinated (virtually), let's dive into the real Java 
 
 ### The Unfortunate Reality
 
-So, you've decided to learn Java. Perhaps your professor assigned it, your company unfortunately uses it, or you generally enjoy perpetual torment. Regardless of how you arrived at this moment, you're here now, staring into the abyss of enterprise-grade verbosity.
+So, you've decided to learn Java. Perhaps your professor assigned it, your company uses it, or you generally enjoy perpetual torment. Regardless of how you arrived at this moment, you're here now, staring into the abyss of enterprise-grade verbosity.
 
 Java is like that friend who explains every single detail of how they made their morning coffee, including the geological history of the beans. It's thorough, it's comprehensive, and it makes you want to drink your coffee somewhere else.
 
 ### A Brief History of Java (Or: How We Got Into This Mess)
 
-In 1995, James Gosling at Sun Microsystems looked at C++ and thought, "You know what this needs? More ceremony, more loquaciousness, and definitely more XML configuration files." Thus, Java was born, originally named "Oak" until they decided coffee is more appealing than trees (but nothing on trees! They are, after all, the lungs of our planet).
+In 1995, James Gosling at Sun Microsystems looked at C++ and thought, "You know what this needs? More ceremony, more loquaciousness, and definitely more XML configuration files." Thus, Java was born, originally named "Oak" until they decided coffee is more appealing than trees (but like, nothing against trees! They are, after all, the lungs of our planet).
 
 The original promises were ambitious:
 
@@ -264,11 +264,11 @@ The original promises were ambitious:
 
 ### What Makes Java Special (And By Special, We Mean Painful)
 
-Java's philosophy can be summarized as: **"Can it BE any more complicated? YES."** Here's what makes Java uniquely frustrating:
+Java's philosophy can be summarized as: **"Can it BE any more complicated? YES, it can."** Here's what makes Java uniquely frustrating:
 
 #### 1. 🎭 Verbosity as a Virtue
 
-Java believes that if you can say something in 5 words, you should definitely use 50 instead. It's like having a conversation with someone who uses legal jargon to ask for the salt.
+Java believes that if you can say something in 5 words, you should definitely use 50 instead. It's like having a conversation with someone who uses jargon for the sake of sounding more intelligent.
 
 ```java
 // What you want to do:
@@ -345,13 +345,13 @@ This book is for:
 - 👩‍💻 **Developers coming from sane languages** who are experiencing culture shock  
 - 😵 **Anyone who's spent 4 hours debugging** a `NullPointerException` on line 1,247 of a file they didn't write
 - 😈 **Masochists** who enjoy pain but want to understand why they're suffering
-- 💼 **People who need to learn Java for work** but want to maintain their sanity (good luck)
+- 💼 **People who need to learn Java for work** but want to maintain their sanity (hahaha)
 
 ### A Word of Encouragement
 
 Despite what this book's tone might suggest, Java isn't actually evil. It's just... enthusiastic. Like a golden retriever that's learned to code. It means well, it's very energetic, and it will fetch your objects whether you asked for them or not.
 
-Java has its place in the world. It's stable, it's fast (eventually), it has excellent tooling, and it pays well. Many successful applications run on Java, and many successful careers have been built around it.
+Java has a place in the world. It's stable, it's fast (eventually), it has excellent tooling, and it pays well. Many successful applications run on Java, and many successful careers have been built around it.
 
 ---
 
@@ -380,8 +380,6 @@ Installing Java should be simple. It's not.
 | **Eclipse Temurin** | Eclipse Foundation | Free | Easy downloads |
 | **Amazon Corretto** | Amazon | Free | Cloud applications |
 
-**Recommendation**: Eclipse Temurin (it's free, easy to download, and just works)
-
 #### Step 2: Set Environment Variables
 
 ```bash
@@ -406,6 +404,7 @@ javac -version
 #### IntelliJ IDEA - The Tesla of Java IDEs
 **Pros**: Excellent code completion, modern interface, great debugging
 **Cons**: Ultimate edition costs money
+**Bonus Tips**: It's a boring interface to begin with, but you can customize the theme.
 
 #### Eclipse - The Reliable Honda Civic
 **Pros**: Free, powerful, handles large projects
