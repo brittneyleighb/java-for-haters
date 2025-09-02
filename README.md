@@ -1,5 +1,5 @@
-# ☕ Java: For the Haters
-*The Complete Survival Guide to the Language That Broke A Million Dreams*
+# ☕ Java For Haters
+*The Complete Survival Guide"
 
 ## 📖 Read the Book
 👉 **[Start Reading: Java for the Haters](java-for-the-haters.md)**
