@@ -1,4 +1,4 @@
-# ☕ Java: For the Haters
+# ☕ Java For Haters
 ## The Complete Survival Guide 
 
 > *"Write once, debug everywhere, cry daily"* - Ancient Java Proverb (circa 1995)
